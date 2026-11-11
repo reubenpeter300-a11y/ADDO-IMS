@@ -19,10 +19,10 @@ jobs:
           channel: 'stable'
       - name: Tengeneza folda la Android
         run: flutter create . --platforms=android
-      - name: Rekebisha compileSdk kwenye faili zote
+      - name: Rekebisha compileSdk kwenye faili zote za Gradle
         run: |
-          echo "Inatafuta faili za Gradle..."
-          find . -name "build.gradle*" -exec sed -i 's/flutter.compileSdkVersion/36/g' {} +
+          echo "Inatafuta na kurekebisha faili za Gradle..."
+          find . -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/flutter.compileSdkVersion/36/g; s/compileSdkVersion.*/compileSdkVersion 36/g; s/compileSdk = .*/compileSdk = 36/g'
           echo "Imerekebishwa kikamilifu!"
       - name: Pakua Vifurushi
         run: flutter pub get
