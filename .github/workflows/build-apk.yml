@@ -17,13 +17,19 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter create .
-      - name: Rekebisha compileSdk kwenye app
+      - name: Tengeneza folda la Android
+        run: flutter create . --platforms=android
+      - name: Rekebisha compileSdk kwenye faili zote
         run: |
-          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 36/' android/app/build.gradle
-      - run: flutter pub get
-      - run: flutter build apk --release
-      - uses: actions/upload-artifact@v4
+          echo "Inatafuta faili za Gradle..."
+          find . -name "build.gradle*" -exec sed -i 's/flutter.compileSdkVersion/36/g' {} +
+          echo "Imerekebishwa kikamilifu!"
+      - name: Pakua Vifurushi
+        run: flutter pub get
+      - name: Jenga APK
+        run: flutter build apk --release
+      - name: Hifadhi APK
+        uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
