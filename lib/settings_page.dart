@@ -45,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
     ));
     if (confirm != true) return;
     try {
-      final picked = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['db'], withData: false);
+// //       final picked = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['db'], withData: false);
       if (picked == null || picked.files.single.path == null) return;
       final selected = File(picked.files.single.path!);
       if (await selected.length() < 100) throw Exception('Faili ya backup si sahihi');
