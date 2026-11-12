@@ -19,29 +19,17 @@ jobs:
           channel: 'stable'
       - name: Tengeneza folda la Android
         run: flutter create . --platforms=android
-      - name: Rekebisha SDK na Zima Kotlin ya AGP 9
-        run: |
-          echo "Inarekebisha compileSdk kwenye file_picker..."
-          find ~/.pub-cache -path "*file_picker*" -name "build.gradle*" -exec sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g' {} +
-          echo "Inazima mfumo mpya wa Kotlin..."
-          echo "android.builtInKotlin=false" >> android/gradle.properties
-          echo "Imerekebishwa kikamilifu!"
       - name: Pakua Vifurushi
         run: flutter pub get
+      - name: Rekebisha file_picker kwa AGP 9
+        run: |
+          echo "Inarekebisha file_picker build.gradle..."
+          find ~/.pub-cache -path "*file_picker*" -name "build.gradle" -exec sed -i 's/if (!isAgp9OrAbove)/if (isAgp9OrAbove)/' {} +
+          echo "Imerekebishwa!"
       - name: Jenga APK
         run: flutter build apk --release
-      - name: Tafuta na Nakili APK kwa Mkono
-        run: |
-          echo "Inatafuta faili la APK..."
-          find . -name "*.apk" -type f
-          echo "Inanakili APK kwenye folda sahihi..."
-          cp $(find . -name "app-release.apk" | head -n 1) build/app/outputs/flutter-apk/app-release.apk || true
-          cp $(find . -name "app-release.apk" | head -n 1) build/app/outputs/apk/release/app-release.apk || true
-          echo "Imekamilika!"
       - name: Hifadhi APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/apk/release/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
