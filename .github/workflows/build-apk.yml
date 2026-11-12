@@ -16,17 +16,10 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.22.3'
           channel: 'stable'
-      - name: Sasisha file_picker kwenye pubspec.yaml
-        run: |
-          sed -i 's/^  file_picker:.*/  file_picker: ^13.0.0/' pubspec.yaml
-          echo "file_picker imesasishwa:"
-          grep "file_picker:" pubspec.yaml
       - name: Tengeneza folda la Android
         run: flutter create . --platforms=android
-      - name: Rekebisha compileSdk 36 kwenye mradi
-        run: |
-          find android -name "build.gradle*" | xargs sed -i 's/flutter.compileSdkVersion/36/g'
       - name: Pakua Vifurushi
         run: flutter pub get
       - name: Jenga APK
