@@ -19,13 +19,17 @@ jobs:
           channel: 'stable'
       - name: Tengeneza folda la Android
         run: flutter create . --platforms=android
+      - name: Lazimisha SDK 36 Kila Mahali
+        run: |
+          echo "1. Inarekebisha vifurushi (pub-cache)..."
+          find ~/.pub-cache -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g'
+          find ~/.pub-cache -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdk = 34/compileSdk = 36/g'
+          
+          echo "2. Inarekebisha mradi wako..."
+          find android -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 36/g'
+          find android -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 36/g'
       - name: Pakua Vifurushi
         run: flutter pub get
-      - name: Rekebisha file_picker kwa AGP 9
-        run: |
-          echo "Inarekebisha file_picker build.gradle..."
-          find ~/.pub-cache -path "*file_picker*" -name "build.gradle" -exec sed -i 's/if (!isAgp9OrAbove)/if (isAgp9OrAbove)/' {} +
-          echo "Imerekebishwa!"
       - name: Jenga APK
         run: flutter build apk --release
       - name: Hifadhi APK
