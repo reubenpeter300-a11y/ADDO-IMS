@@ -19,10 +19,24 @@ jobs:
           channel: 'stable'
       - name: Tengeneza folda la Android
         run: flutter create . --platforms=android
-      - name: Rekebisha compileSdk kwenye faili zote za Gradle
+      - name: Lazimisha SDK 36 kwa plugins zote
         run: |
-          echo "Inatafuta na kurekebisha faili za Gradle..."
-          find . -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/flutter.compileSdkVersion/36/g; s/compileSdkVersion.*/compileSdkVersion 36/g; s/compileSdk = .*/compileSdk = 36/g'
+          echo "Inaandika sheria mpya kwenye android/build.gradle..."
+          cat << 'INNER_EOF' >> android/build.gradle
+
+          subprojects {
+              afterEvaluate { project ->
+                  if (project.hasProperty('android')) {
+                      project.android {
+                          if (namespace == null) {
+                              namespace project.group
+                          }
+                          compileSdkVersion 36
+                      }
+                  }
+              }
+          }
+          INNER_EOF
           echo "Imerekebishwa kikamilifu!"
       - name: Pakua Vifurushi
         run: flutter pub get
