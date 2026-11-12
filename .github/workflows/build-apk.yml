@@ -17,17 +17,16 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+      - name: Sasisha file_picker kwenye pubspec.yaml
+        run: |
+          sed -i 's/^  file_picker:.*/  file_picker: ^13.0.0/' pubspec.yaml
+          echo "file_picker imesasishwa:"
+          grep "file_picker:" pubspec.yaml
       - name: Tengeneza folda la Android
         run: flutter create . --platforms=android
-      - name: Lazimisha SDK 36 Kila Mahali
+      - name: Rekebisha compileSdk 36 kwenye mradi
         run: |
-          echo "1. Inarekebisha vifurushi (pub-cache)..."
-          find ~/.pub-cache -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdkVersion 34/compileSdkVersion 36/g'
-          find ~/.pub-cache -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdk = 34/compileSdk = 36/g'
-          
-          echo "2. Inarekebisha mradi wako..."
-          find android -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 36/g'
-          find android -type f -name "build.gradle" -o -name "build.gradle.kts" | xargs sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 36/g'
+          find android -name "build.gradle*" | xargs sed -i 's/flutter.compileSdkVersion/36/g'
       - name: Pakua Vifurushi
         run: flutter pub get
       - name: Jenga APK
