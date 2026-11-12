@@ -18,9 +18,7 @@ jobs:
         with:
           flutter-version: '3.22.3'
           channel: 'stable'
-      - name: Rekebisha jina kwenye pubspec
-        run: sed -i 's/^name: .*/name: addo_ims/' pubspec.yaml
-      - name: Tengeneza folda la Android kwa jina sahihi
+      - name: Tengeneza Android
         run: flutter create . --project-name addo_ims --platforms=android
       - name: Pakua Vifurushi
         run: flutter pub get

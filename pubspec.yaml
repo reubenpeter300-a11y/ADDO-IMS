@@ -1,4 +1,4 @@
-name: addo_manager
+name: addo_ims
 description: Offline-first ADDO management app for a single pharmacy.
 publish_to: "none"
 version: 0.1.0+1
